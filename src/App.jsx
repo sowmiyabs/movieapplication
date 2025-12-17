@@ -1,9 +1,8 @@
-import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home.jsx";
 import MovieDetails from "./pages/moviesdetails.jsx";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -12,7 +11,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
-

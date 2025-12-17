@@ -1,53 +1,71 @@
-import { useState, useEffect } from "react";
-import { searchMovies } from "../api/omdb.js";
-import SearchBar from "../components/searchbar.jsx";
+import { useEffect, useState } from "react";
+import SearchBar from "../components/SearchBar.jsx";
 import MovieCard from "../components/moviescard.jsx";
-import Pagination from "../components/pagination.jsx";
-import FilterDropdown from "../components/Filter droupdown.jsx";
+import Filter from "../components/Filter.jsx";
+import Pagination from "../components/Pagination.jsx";
+import { searchMovies } from "../servies/omdbservices.js";
+
 
 const Home = () => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("batman");
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [type, setType] = useState("");
   const [error, setError] = useState("");
+  const [totalResults, setTotalResults] = useState(0);
 
   useEffect(() => {
-    if (!query) return;
-
-    const fetchData = async () => {
-      try {
-        const data = await searchMovies(query, page, type);
-        if (data.Response === "False") {
-          setError(data.Error);
-          setMovies([]);
-        } else {
-          setMovies(data.Search);
-          setError("");
-        }
-      } catch {
-        setError("Something went wrong!");
+    const fetchMovies = async () => {
+      const data = await searchMovies(query, page, type);
+      if (data.Response === "True") {
+        setMovies(data.Search);
+        setError("");
+        setTotalResults(parseInt(data.totalResults) || 0);
+      } else {
+        setMovies([]);
+        setError(data.Error);
+        setTotalResults(0);
       }
     };
 
-    fetchData();
+    fetchMovies();
   }, [query, page, type]);
 
   return (
-    <div className="p-6">
-      <SearchBar onSearch={(q) => { setQuery(q); setPage(1); }} />
-      <FilterDropdown onFilter={setType} />
-
-      {error && <p className="text-red-500 mt-4">{error}</p>}
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-        {movies.map((movie) => (
-          <MovieCard key={movie.imdbID} movie={movie} />
-        ))}
-      </div>
-
-      {movies.length > 0 && <Pagination page={page} setPage={setPage} />}
+   <div className="min-h-screen">
+  {/* Header */}
+  <div className="sticky top-0 bg-white shadow z-10">
+    <div className="max-w-7xl mx-auto p-4 flex flex-col md:flex-row gap-4">
+      <SearchBar onSearch={setQuery} />
+      <Filter onFilter={setType} />
     </div>
+  </div>
+
+  {/* Content */}
+  <div className="max-w-7xl mx-auto p-5">
+    {error && (
+      <p className="text-center text-red-500 mt-5">{error}</p>
+    )}
+
+    {!error && movies.length === 0 && (
+      <p className="text-center text-gray-500 mt-10">
+        No movies found 🎬
+      </p>
+    )}
+
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-6">
+      {movies.map((movie) => (
+        <MovieCard key={movie.imdbID} movie={movie} />
+      ))}
+    </div>
+
+    <Pagination
+      currentPage={page}
+      totalResults={totalResults}
+      onPageChange={setPage}
+    />
+  </div>
+</div>
   );
 };
 

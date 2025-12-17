@@ -6,9 +6,8 @@ const SearchBar = ({ onSearch }) => {
       className="
         w-full p-3 rounded-lg border
         focus:outline-none focus:ring-2 focus:ring-indigo-500
-        shadow-sm
-      "
-      onChange={(e) => onSearch(e.target.value)}
+        shadow-sm"
+      onChange={(e) => onSear(e.target.value)}
     />
   );
 };

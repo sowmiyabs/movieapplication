@@ -2,9 +2,10 @@ const Filter = ({ onFilter }) => {
   return (
     <select
       className="
-        p-3 rounded-lg border bg-white
-        focus:outline-none focus:ring-2 focus:ring-indigo-500
-        shadow-sm
+        px-4 py-3 rounded-lg border border-gray-300 bg-white
+        focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent
+        shadow-sm text-gray-900 font-medium
+        cursor-pointer transition duration-200
       "
       onChange={(e) => onFilter(e.target.value)}
     >

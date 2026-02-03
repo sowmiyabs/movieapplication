@@ -3,32 +3,34 @@ const Pagination = ({ currentPage, totalResults, onPageChange }) => {
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex justify-center items-center gap-6 mt-10">
+    <div className="flex justify-center items-center gap-4 mt-12 pb-8">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="
-          px-5 py-2 rounded-lg border
-          hover:bg-indigo-500 hover:text-white
-          disabled:opacity-50 disabled:hover:bg-white
-          transition
+          px-6 py-3 rounded-lg border-2 border-red-600
+          bg-transparent text-white font-semibold
+          hover:bg-red-600 hover:text-white
+          disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent
+          transition duration-200
         "
       >
         ← Prev
       </button>
 
-      <span className="font-semibold">
-        {currentPage} / {totalPages}
+      <span className="font-bold text-gray-300 text-lg px-4 py-2 bg-gray-800/50 rounded-lg">
+        {currentPage} <span className="text-gray-500">of</span> {totalPages}
       </span>
 
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="
-          px-5 py-2 rounded-lg border
-          hover:bg-indigo-500 hover:text-white
-          disabled:opacity-50 disabled:hover:bg-white
-          transition
+          px-6 py-3 rounded-lg border-2 border-red-600
+          bg-transparent text-white font-semibold
+          hover:bg-red-600 hover:text-white
+          disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent
+          transition duration-200
         "
       >
         Next →

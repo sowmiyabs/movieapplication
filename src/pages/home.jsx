@@ -32,28 +32,42 @@ const Home = () => {
   }, [query, page, type]);
 
   return (
-   <div className="min-h-screen">
+   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
   {/* Header */}
-  <div className="sticky top-0 bg-white shadow z-10">
-    <div className="max-w-7xl mx-auto p-4 flex flex-col md:flex-row gap-4">
-      <SearchBar onSearch={setQuery} />
-      <Filter onFilter={setType} />
+  <div className="sticky top-0 bg-gradient-to-r from-red-700 to-red-900 shadow-lg z-10">
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h1 className="text-3xl font-bold text-white">🎬 MovieFlix</h1>
+          <p className="text-red-200 text-sm">Discover your next favorite movie</p>
+        </div>
+      </div>
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex-1">
+          <SearchBar onSearch={setQuery} />
+        </div>
+        <div className="md:w-48">
+          <Filter onFilter={setType} />
+        </div>
+      </div>
     </div>
   </div>
 
   {/* Content */}
-  <div className="max-w-7xl mx-auto p-5">
+  <div className="max-w-7xl mx-auto px-4 py-8">
     {error && (
-      <p className="text-center text-red-500 mt-5">{error}</p>
+      <div className="bg-red-500/20 border-l-4 border-red-500 p-4 rounded mt-5 text-red-200">
+        <p className="font-semibold">⚠️ {error}</p>
+      </div>
     )}
 
     {!error && movies.length === 0 && (
-      <p className="text-center text-gray-500 mt-10">
+      <p className="text-center text-gray-400 mt-10 text-lg">
         No movies found 🎬
       </p>
     )}
 
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-8">
       {movies.map((movie) => (
         <MovieCard key={movie.imdbID} movie={movie} />
       ))}

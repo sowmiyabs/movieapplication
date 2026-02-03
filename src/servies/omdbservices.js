@@ -1,5 +1,6 @@
 const API_KEY = "599d33a0";
-const BASE_URL = "http://www.omdbapi.com/";
+// Use HTTPS to avoid mixed-content blocking when site is served over HTTPS
+const BASE_URL = "https://www.omdbapi.com/";
 
 /**
  * Search movies by title, page number, and type
@@ -8,15 +9,20 @@ const BASE_URL = "http://www.omdbapi.com/";
  * @param {string} type
  */
 export const searchMovies = async (query, page = 1, type = "") => {
-  const response = await fetch(
-    `${BASE_URL}?apikey=${API_KEY}&s=${query}&page=${page}&type=${type}`
-  );
+  try {
+    const response = await fetch(
+      `${BASE_URL}?apikey=${API_KEY}&s=${encodeURIComponent(query)}&page=${page}&type=${type}`
+    );
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch movies");
+    if (!response.ok) {
+      throw new Error("Failed to fetch movies");
+    }
+
+    return response.json();
+  } catch (err) {
+    console.error("searchMovies error:", err);
+    return { Response: "False", Error: "Network error" };
   }
-
-  return response.json();
 };
 
 /**
@@ -24,13 +30,18 @@ export const searchMovies = async (query, page = 1, type = "") => {
  * @param {string} id
  */
 export const getMovieDetails = async (id) => {
-  const response = await fetch(
-    `${BASE_URL}?apikey=${API_KEY}&i=${id}&plot=full`
-  );
+  try {
+    const response = await fetch(
+      `${BASE_URL}?apikey=${API_KEY}&i=${id}&plot=full`
+    );
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch movie details");
+    if (!response.ok) {
+      throw new Error("Failed to fetch movie details");
+    }
+
+    return response.json();
+  } catch (err) {
+    console.error("getMovieDetails error:", err);
+    return { Response: "False", Error: "Network error" };
   }
-
-  return response.json();
 };

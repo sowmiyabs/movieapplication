@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import SearchBar from "../components/SearchBar.jsx";
+import SearchBar from "../components/searchbar.jsx";
 import MovieCard from "../components/moviescard.jsx";
 import Filter from "../components/Filter.jsx";
-import Pagination from "../components/Pagination.jsx";
+import Pagination from "../components/pagination.jsx";
 import { searchMovies } from "../servies/omdbservices.js";
 
 

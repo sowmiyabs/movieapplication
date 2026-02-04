@@ -35,6 +35,7 @@ const MovieDetails = () => {
     </div>
   </div>
 </div>
+
   );
 };
 
